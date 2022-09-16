@@ -1,0 +1,53 @@
+<canvas></canvas>
+<script>
+  const canvas = document.querySelector("canvas");
+  const c = canvas.getContext("2d");
+
+  canvas.width = 1024;
+  canvas.height = 768;
+
+  c.fillStyle = "black";
+  c.fillRect(0, 0, canvas.width, canvas.height);
+
+  class Walker {
+    constructor(position = { x: 0, y: 0 }) {
+      this.positon = position;
+      this.width = 1;
+      this.height = 1;
+    }
+
+    draw() {
+      const colors = ["#A8A111", "#18B5F5", "#F4E800", "#F51840", "#A80825"];
+
+      c.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+      c.fillRect(this.positon.x, this.positon.y, this.height, this.width);
+    }
+
+    step() {
+      let choice = Math.floor(Math.random() * 4);
+      if (choice === 1) {
+        this.positon.x++;
+      } else if (choice === 2) {
+        this.positon.x--;
+      } else if (choice === 3) {
+        this.positon.y++;
+      } else {
+        this.positon.y--;
+      }
+    }
+
+    update() {
+      this.draw();
+      this.step();
+    }
+  }
+
+  const walk = new Walker({ x: canvas.width / 2, y: canvas.height / 2 });
+  walk.update();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    walk.update();
+  }
+  animate();
+</script>
